@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "541739372348",
+    "project_id": "autoclinchcustomerapp",
+    "storage_bucket": "autoclinchcustomerapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541739372348:android:24af89b8023f02a0535839",
+        "android_client_info": {
+          "package_name": "com.autoclinch.customer.autoclinch_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541739372348-052mbo84fg6htlhf6oviqi25f7fdg2m9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.autoclinch.customer.autoclinch_customer",
+            "certificate_hash": "95467d37dd6b30d63ec61342449e3722542d3648"
+          }
+        },
+        {
+          "client_id": "541739372348-bjbsd9a29nh28qiql2f89kabb28nnkjp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.autoclinch.customer.autoclinch_customer",
+            "certificate_hash": "1870723c43e3206a93ed4c36f32ac3608bc6026d"
+          }
+        },
+        {
+          "client_id": "541739372348-cclnhh5k0odp85m99m7e4n6mutia43ek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.autoclinch.customer.autoclinch_customer",
+            "certificate_hash": "bb93f3d8685fc00f0e77aa04298cd993f8cad490"
+          }
+        },
+        {
+          "client_id": "541739372348-dtjcgdjsfdd90sco7ddsul52ek00v9nv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.autoclinch.customer.autoclinch_customer",
+            "certificate_hash": "6a6bfb241b086a54fab29f1b2ef6ed59e7cb785b"
+          }
+        },
+        {
+          "client_id": "541739372348-rnqu2s5n0hk44qq1c2g0g57joo8jqvfi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.autoclinch.customer.autoclinch_customer",
+            "certificate_hash": "7b8e0ec2a564302ce3be57b5af2b6ebedfbe0199"
+          }
+        },
+        {
+          "client_id": "541739372348-k9gaq1ts1hijfinth9702hp6766qum1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgGba9biYS_GEejC-LICnf8CEjICk-l8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541739372348-k9gaq1ts1hijfinth9702hp6766qum1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
