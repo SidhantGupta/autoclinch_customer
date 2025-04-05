@@ -1,11 +1,50 @@
 import 'dart:developer';
-/*
+
 import 'package:autoclinch_customer/screens/home/home_main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationService {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  void initlocalNot(BuildContext context, RemoteMessage message) async {
+    var andriodInitilisattionSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var inilializeseeting =
+        InitializationSettings(android: andriodInitilisattionSettings);
+    await _flutterLocalNotificationsPlugin.initialize(
+      inilializeseeting,
+      onDidReceiveBackgroundNotificationResponse: (payload) => {},
+    );
+  }
+
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  void firebaseinit() {
+    FirebaseMessaging.onMessage.listen((event) {
+      print(event.notification!.title.toString());
+      display(event);
+    });
+  }
+
+  void requestPermission() async {
+    NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: true,
+        criticalAlert: true,
+        badge: true,
+        carPlay: true,
+        provisional: true,
+        sound: true);
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('Grated');
+    } else if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('Provisional');
+    } else {
+      print('denied');
+    }
+  }
+
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -57,4 +96,3 @@ class LocalNotificationService {
     }
   }
 }
-*/

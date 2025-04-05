@@ -6,7 +6,8 @@ import 'package:autoclinch_customer/utils/extensions.dart';
 import 'package:autoclinch_customer/utils/preference_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:map_place_picker/map_place_picker.dart' show MapPicker, MapAddress;
+import 'package:map_place_picker/map_place_picker.dart'
+    show MapPicker, MapAddress;
 import 'package:provider/provider.dart' show Consumer, Provider;
 
 //ignore: must_be_immutable
@@ -48,17 +49,22 @@ class _VendorListScreenState extends State<VendorListScreen> {
       // 'radius': '56'
       'searchKey': _searchKey
     };
-    final selectedFilter = _filterModels.where((element) => element.isSelected).toList();
+    final selectedFilter =
+        _filterModels.where((element) => element.isSelected).toList();
     if (selectedFilter.isNotEmpty) {
-      params.addAll(selectedFilter.asMap().map((key, value) => MapEntry('service_list[$key]', value.name)));
+      params.addAll(selectedFilter
+          .asMap()
+          .map((key, value) => MapEntry('service_list[$key]', value.name)));
     }
-    final HomeResponse? response = await ApiService().execute<HomeResponse>('getnearestvendors', params: params);
+    final HomeResponse? response = await ApiService()
+        .execute<HomeResponse>('getnearestvendors', params: params);
     _vendors = response?.homeData?.vendorList ?? [];
 
     ////("Vendor list" + _vendors.toString());
     if (_filterModels.isEmpty) {
       _filterModels = response?.homeData?.filterServiceList
-              ?.map((e) => _FilterModelUnMutable(name: e.serviceName, id: 0, isSelected: false))
+              ?.map((e) => _FilterModelUnMutable(
+                  name: e.serviceName, id: 0, isSelected: false))
               .toList() ??
           [];
     }
@@ -85,8 +91,11 @@ class _VendorListScreenState extends State<VendorListScreen> {
     }
   }
 
-  void _openMap(BuildContext context, void Function(MapAddress?) addressSelected) {
-    final LatLng? _latLng = _mapAddress == null ? null : LatLng(_mapAddress!.latitude, _mapAddress!.longitude);
+  void _openMap(
+      BuildContext context, void Function(MapAddress?) addressSelected) {
+    final LatLng? _latLng = _mapAddress == null
+        ? null
+        : LatLng(_mapAddress!.latitude, _mapAddress!.longitude);
     MapPicker.show(context, MAP_API_KEY, (address) {
       if (address != null) {
         SharedPreferenceUtil().storeMapAddress(address);
@@ -110,15 +119,18 @@ class _VendorListScreenState extends State<VendorListScreen> {
   @override
   Widget build(BuildContext context) {
     _loadingNotifier = Provider.of<HomeLoadingNotifier>(context, listen: false);
-    _vendorsListNotifier = Provider.of<HomeVendorsNotifier>(context, listen: false);
+    _vendorsListNotifier =
+        Provider.of<HomeVendorsNotifier>(context, listen: false);
 
-    _locationNotifier = Provider.of<HomeLocationNotifier>(context, listen: false);
+    _locationNotifier =
+        Provider.of<HomeLocationNotifier>(context, listen: false);
     // _loadingNotifier?.reset(loading: true);
     _loadingNotifier?.reset();
     double screenWidth = MediaQuery.of(context).size.width;
     double screenWidthNew = MediaQuery.of(context).size.width - 40;
 
-    final TextStyle _labelStyle = TextStyle(fontSize: 14.0, color: Color(0xFF2A2935));
+    final TextStyle _labelStyle =
+        TextStyle(fontSize: 14.0, color: Color(0xFF2A2935));
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -150,7 +162,10 @@ class _VendorListScreenState extends State<VendorListScreen> {
                             gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
-                              colors: <Color>[Color.fromARGB(255, 255, 176, 101), Color.fromARGB(255, 250, 228, 205)],
+                              colors: <Color>[
+                                Color.fromARGB(255, 255, 176, 101),
+                                Color.fromARGB(255, 250, 228, 205)
+                              ],
                             ),
                           ),
                           child: Container(
@@ -168,7 +183,8 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                   child: Consumer<HomeLocationNotifier>(
                                     builder: (context, value, child) => Text(
                                         // '29 Street of NY, New York City, USA',
-                                        _mapAddress?.address ?? 'Select location',
+                                        _mapAddress?.address ??
+                                            'Select location',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: _labelStyle),
@@ -249,7 +265,8 @@ class _VendorListScreenState extends State<VendorListScreen> {
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              const Icon(Icons.search_outlined, color: Color.fromARGB(255, 246, 130, 30)),
+                              const Icon(Icons.search_outlined,
+                                  color: Color.fromARGB(255, 246, 130, 30)),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Form(
@@ -264,7 +281,8 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                       disabledBorder: InputBorder.none,
                                     ),
                                     onChanged: (value) {
-                                      if (value.isNullOrEmpty && value.trim() != _searchKey) {
+                                      if (value.isNullOrEmpty &&
+                                          value.trim() != _searchKey) {
                                         _searchKey = '';
                                         _homeApi(context);
                                         FocusScope.of(context).unfocus();
@@ -288,8 +306,8 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                     _showFilters(context);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-                                    primary: Color.fromARGB(255, 244, 245, 247),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 7, vertical: 5),
                                   ),
                                   icon: Icon(
                                     Icons.filter_list_outlined,
@@ -328,8 +346,9 @@ class _VendorListScreenState extends State<VendorListScreen> {
                     final Vendor _vendorDetails = _vendors[index];
                     return Card(
                       child: InkWell(
-                        onTap: () => Navigator.of(context)
-                            .pushNamed('/vendordetails', arguments: _vendorDetails.businessInfo.id),
+                        onTap: () => Navigator.of(context).pushNamed(
+                            '/vendordetails',
+                            arguments: _vendorDetails.businessInfo.id),
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Row(
@@ -343,8 +362,11 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                 child: Container(
                                   child: Column(
                                     children: [
-                                      _vendorDetails.businessInfo.profileImage == null &&
-                                              _vendorDetails.businessInfo.profileImage!.isEmpty
+                                      _vendorDetails.businessInfo
+                                                      .profileImage ==
+                                                  null &&
+                                              _vendorDetails.businessInfo
+                                                  .profileImage!.isEmpty
                                           ? Container(
                                               height: 80,
                                               child: Image.asset(
@@ -357,7 +379,9 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                           : Container(
                                               height: 80,
                                               child: Image.network(
-                                                _vendorDetails.businessInfo.profileImage ?? "",
+                                                _vendorDetails.businessInfo
+                                                        .profileImage ??
+                                                    "",
                                                 width: 70,
                                                 height: 70,
                                                 fit: BoxFit.contain,
@@ -366,13 +390,20 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                       Container(
                                         width: 70,
                                         alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                                        color: _vendorDetails.isOnline ? Colors.green : Color(0xFFEBEBEB),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 5),
+                                        color: _vendorDetails.isOnline
+                                            ? Colors.green
+                                            : Color(0xFFEBEBEB),
                                         child: Text(
-                                          _vendorDetails.isOnline ? 'Online' : 'Offline',
+                                          _vendorDetails.isOnline
+                                              ? 'Online'
+                                              : 'Offline',
                                           style: TextStyle(
                                             fontSize: 11,
-                                            color: _vendorDetails.isOnline ? Colors.white : Colors.black,
+                                            color: _vendorDetails.isOnline
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
@@ -391,10 +422,15 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        _vendorDetails.businessInfo.businessName ?? '',
-                                        style: _labelStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 15),
+                                        _vendorDetails
+                                                .businessInfo.businessName ??
+                                            '',
+                                        style: _labelStyle.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
                                       ),
-                                      _vendorDetails.businessInfo.is_verified == "yes"
+                                      _vendorDetails.businessInfo.is_verified ==
+                                              "yes"
                                           ? Image.asset(
                                               'assets/images/checked.jpeg',
                                               width: 30,
@@ -411,26 +447,36 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                     width: 90,
                                     child: Card(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15.0),
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                       ),
                                       // margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
 
                                       color: Color.fromARGB(255, 249, 227, 206),
 
                                       child: Container(
-                                        padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0, top: 5.0),
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            bottom: 5.0,
+                                            top: 5.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
-                                            Icon(Icons.star_outlined, color: Color.fromARGB(255, 246, 130, 30)),
+                                            Icon(Icons.star_outlined,
+                                                color: Color.fromARGB(
+                                                    255, 246, 130, 30)),
                                             const SizedBox(width: 4),
                                             Text(
                                               _vendorDetails.rating.toString(),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: 15.0,
-                                                  color: Color.fromARGB(255, 246, 130, 30)),
+                                                  color: Color.fromARGB(
+                                                      255, 246, 130, 30)),
                                             ),
                                           ],
                                         ),
@@ -443,12 +489,18 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                       const SizedBox(width: 4),
                                       Icon(
                                         Icons.home_work_outlined,
-                                        color: Color.fromARGB(255, 141, 158, 166),
+                                        color:
+                                            Color.fromARGB(255, 141, 158, 166),
                                       ),
                                       const SizedBox(width: 4),
                                       Expanded(
-                                        child: Text(_vendorDetails.businessInfo.address ?? '',
-                                            style: TextStyle(color: Color.fromARGB(255, 98, 99, 112))),
+                                        child: Text(
+                                            _vendorDetails
+                                                    .businessInfo.address ??
+                                                '',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 98, 99, 112))),
                                       ),
                                     ],
                                   ),
@@ -458,13 +510,16 @@ class _VendorListScreenState extends State<VendorListScreen> {
                                       const SizedBox(width: 4),
                                       Icon(
                                         Icons.place_outlined,
-                                        color: Color.fromARGB(255, 141, 158, 166),
+                                        color:
+                                            Color.fromARGB(255, 141, 158, 166),
                                       ),
                                       const SizedBox(width: 4),
                                       Expanded(
-                                        child: Text('${_vendorDetails.businessInfo.distanceInt} KM',
+                                        child: Text(
+                                            '${_vendorDetails.businessInfo.distanceInt} KM',
                                             style: TextStyle(
-                                              color: Color.fromARGB(255, 98, 99, 112),
+                                              color: Color.fromARGB(
+                                                  255, 98, 99, 112),
                                             )),
                                       ),
                                     ],
@@ -525,10 +580,14 @@ class _VendorListScreenState extends State<VendorListScreen> {
 }
 
 extension PaddingWidget on Widget {
-  Widget paddingAll(double padding) => Padding(padding: EdgeInsets.all(padding), child: this);
+  Widget paddingAll(double padding) =>
+      Padding(padding: EdgeInsets.all(padding), child: this);
 
   Widget paddingSymmetric({double vertical = 0.0, double horizontal = 0.0}) =>
-      Padding(padding: EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical), child: this);
+      Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
+          child: this);
 }
 
 class _FilterModelMutable {
@@ -536,7 +595,8 @@ class _FilterModelMutable {
   final int id;
   bool isSelected;
 
-  _FilterModelMutable({required this.name, required this.id, this.isSelected = true});
+  _FilterModelMutable(
+      {required this.name, required this.id, this.isSelected = true});
   _FilterModelUnMutable toUnMutable() {
     return _FilterModelUnMutable(name: name, id: id, isSelected: isSelected);
   }
@@ -547,7 +607,8 @@ class _FilterModelUnMutable {
   final int id;
   final bool isSelected;
 
-  _FilterModelUnMutable({required this.name, required this.id, this.isSelected = true});
+  _FilterModelUnMutable(
+      {required this.name, required this.id, this.isSelected = true});
   _FilterModelMutable toMutable() {
     return _FilterModelMutable(name: name, id: id, isSelected: isSelected);
   }
@@ -578,7 +639,9 @@ class FilterScreen extends StatefulWidget {
   final List<_FilterModelMutable> filterModel;
   final Function(List<_FilterModelMutable>, bool status) applyEvent;
   final _onlyAvailableVendor;
-  FilterScreen(this.filterModel, this.applyEvent, this._onlyAvailableVendor, {Key? key}) : super(key: key);
+  FilterScreen(this.filterModel, this.applyEvent, this._onlyAvailableVendor,
+      {Key? key})
+      : super(key: key);
 
   @override
   _FilterScreenState createState() => _FilterScreenState();
@@ -613,7 +676,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               style: ElevatedButton.styleFrom(
-                  primary: Color(0xFFFEF2E6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10))),
             ),
           ],
         ).paddingSymmetric(horizontal: 15),
@@ -683,7 +747,8 @@ class _FilterScreenState extends State<FilterScreen> {
                       itemBuilder: (context, index) => CheckboxListTile(
                         onChanged: (value) {
                           setState(() {
-                            widget.filterModel[index].isSelected = value ?? true;
+                            widget.filterModel[index].isSelected =
+                                value ?? true;
                           });
                         },
                         activeColor: Theme.of(context).primaryColor,

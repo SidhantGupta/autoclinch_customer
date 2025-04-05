@@ -9,6 +9,7 @@ import 'package:autoclinch_customer/utils/preference_util.dart';
 import 'package:flutter/material.dart';
 
 import '../../network/model/login_response.dart';
+import 'home_screnn2.dart';
 
 class HomeMainScreen extends StatefulWidget {
   late final String? id;
@@ -46,8 +47,10 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
         .then((response) {
       if (response == null) return;
       _profileData = response.data;
-      if (_profileData?.socialMedia == null || _profileData!.socialMedia!.isNotEmpty) {
-        if (_profileData?.socialPhone == null || _profileData!.socialPhone!.isEmpty) {
+      if (_profileData?.socialMedia == null ||
+          _profileData!.socialMedia!.isNotEmpty) {
+        if (_profileData?.socialPhone == null ||
+            _profileData!.socialPhone!.isEmpty) {
           Navigator.of(context).pushReplacementNamed('/mobile-verify');
         }
       }
@@ -62,7 +65,7 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
 
   _HomeMainScreenState([this._id]) {
     _widgetOptions = <Widget>[
-      HomeScreen(selectionNavigation),
+      HomeScreen2(selectionNavigation),
       BookingScreen(id: _id),
       SOSScreen(),
       ProfileScreen(selectionNavigation),
@@ -102,10 +105,17 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
             activeColor: Theme.of(context).primaryColor,
           ),
           BottomNavyBarItem(
-              icon: Icon(Icons.paste_sharp), title: Text('Booking'), activeColor: Theme.of(context).primaryColor),
-          BottomNavyBarItem(icon: Icon(Icons.message), title: Text('SOS'), activeColor: Theme.of(context).primaryColor),
+              icon: Icon(Icons.currency_rupee),
+              title: Text('Booking'),
+              activeColor: Theme.of(context).primaryColor),
           BottomNavyBarItem(
-              icon: Icon(Icons.person_outline), title: Text('Profile'), activeColor: Theme.of(context).primaryColor),
+              icon: Icon(Icons.notifications),
+              title: Text('SOS'),
+              activeColor: Theme.of(context).primaryColor),
+          BottomNavyBarItem(
+              icon: Icon(Icons.account_box),
+              title: Text('Profile'),
+              activeColor: Theme.of(context).primaryColor),
         ],
       ),
       // body: SizedBox.expand(

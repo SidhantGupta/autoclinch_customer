@@ -27,7 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _furuService = ApiService().execute<VehicleListModel>('getVehicleList', isGet: true, isThrowExc: true);
+    _furuService = ApiService().execute<VehicleListModel>('getVehicleList',
+        isGet: true, isThrowExc: true);
     super.initState();
   }
 
@@ -77,7 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 SizedBox(height: 25),
                                 InkWell(
-                                  onTap: () => _showBottomSheet(context, 'breakdown'),
+                                  onTap: () =>
+                                      _showBottomSheet(context, 'breakdown'),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(35.0),
                                     child: Container(
@@ -121,7 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 19,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
@@ -141,7 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(35.0),
                                     child: Container(
                                         decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 244, 132, 32),
+                                          color:
+                                              Color.fromARGB(255, 244, 132, 32),
                                           gradient: LinearGradient(
                                             colors: [
                                               Color(0xFFC96B19),
@@ -166,7 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 19,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
@@ -193,7 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(height: 10),
                                 InkWell(
-                                  onTap: () => Navigator.of(context).pushNamed('/sos'),
+                                  onTap: () =>
+                                      Navigator.of(context).pushNamed('/sos'),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(35.0),
                                     child: Container(
@@ -229,7 +235,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 19,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
@@ -242,7 +249,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(height: 10),
                                 InkWell(
-                                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                                  onTap: () => Navigator.of(context)
+                                      .push(MaterialPageRoute(
                                     builder: (context) => ServiceScreen(),
                                   )),
                                   child: ClipRRect(
@@ -274,7 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 19,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
@@ -318,7 +327,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showBottomSheet(BuildContext context, String type) async {
     log(type);
     if (_vehicles.isEmpty) {
-      final _result = await Navigator.of(context).pushNamed('/vehiclelistscreen');
+      final _result =
+          await Navigator.of(context).pushNamed('/vehiclelistscreen');
       if (_result is List<VehicleData>) {
         _vehicles = _result;
       }
@@ -332,7 +342,8 @@ class _HomeScreenState extends State<HomeScreen> {
       isScrollControlled: true,
       builder: (context) => SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           color: Color(0xff757575),
           child: Container(
             padding: EdgeInsets.all(20.0),
@@ -352,7 +363,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextButton.icon(
                         onPressed: () async {
-                          await Navigator.pushNamed(context, '/addvehiclescreen');
+                          await Navigator.pushNamed(
+                              context, '/addvehiclescreen');
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.add),
@@ -366,19 +378,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  VehicleDropdown(_vehicles, selectListner: (value) => _selectedVehicle = value),
+                  VehicleDropdown(_vehicles,
+                      selectListner: (value) => _selectedVehicle = value),
                   const Divider(),
                   ElevatedButton(
                     child: Text(
                       'Save',
                       style: TextStyle(color: Colors.white),
                     ),
-                    style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+                    style: ElevatedButton.styleFrom(),
                     onPressed: () async {
                       if (_selectedVehicle != null) {
                         Navigator.pop(context);
                         await SharedPreferenceUtil().storeServiceType(type);
-                        await SharedPreferenceUtil().storeVehicleName(_selectedVehicle!.id.toString());
+                        await SharedPreferenceUtil()
+                            .storeVehicleName(_selectedVehicle!.id.toString());
                         Navigator.of(context).pushNamed('/vendors');
                       }
                     },

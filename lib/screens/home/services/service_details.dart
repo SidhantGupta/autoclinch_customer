@@ -31,7 +31,9 @@ class ServiceDetails extends StatefulWidget {
 
 class _ServiceDetailsState extends State<ServiceDetails> {
   PaymentLoadingNotifier? _loadingNotifier;
-
+  double? mrp;
+  double? discount;
+  var arr;
   @override
   void initState() {
     _loadingNotifier =
@@ -39,6 +41,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     // _loadingNotifier?.isLoading = false;
     getVehicle();
     getPackages();
+    mrp = widget.service.price! * .2 + widget.service.price!.toDouble();
+    discount = (mrp! - widget.service.price!).roundToDouble();
+    String mrps = mrp.toString();
+    arr = mrps.split('.');
+
     super.initState();
   }
 
@@ -91,7 +98,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               children: [
                 SizedBox(height: 30),
                 Text(widget.service.description ?? '',
-                    style: theme.textTheme.headline5),
+                    style: theme.textTheme.titleLarge),
                 SizedBox(height: 20),
                 ListTile(
                   contentPadding: EdgeInsets.only(right: 20),
@@ -116,7 +123,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   trailing: Text.rich(
                     TextSpan(
                       text: 'Rs. ',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, wordSpacing: 10),
                       children: [
                         TextSpan(
                           text: widget.service.price.toString(),
@@ -124,13 +131,54 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: ' / month',
-                          style: TextStyle(fontSize: 16),
+                          text: ' ',
+                          style: TextStyle(fontSize: 16, wordSpacing: 5),
                         ),
+                        if (widget.service.days! != 30)
+                          TextSpan(
+                            text: arr[0],
+                            style: TextStyle(
+                                fontSize: 16,
+                                decoration: TextDecoration.lineThrough,
+                                wordSpacing: 5),
+                          ),
+                        if (widget.service.days! != 30)
+                          TextSpan(
+                            text: '/-',
+                            style: TextStyle(fontSize: 16, wordSpacing: 5),
+                          ),
                       ],
                     ),
                   ),
                 ),
+                if (widget.service.days! != 30)
+                  ListTile(
+                    contentPadding: EdgeInsets.only(right: 20),
+                    leading: CircleAvatar(
+                      backgroundColor:
+                          theme.appBarTheme.backgroundColor?.withOpacity(0.1),
+                      foregroundColor: theme.appBarTheme.backgroundColor,
+                      child: Icon(Icons.savings, size: 20),
+                    ),
+                    title: Text('Total Savings'),
+                    trailing: Text.rich(
+                      TextSpan(
+                        text: 'Rs. ',
+                        style: TextStyle(fontSize: 16, wordSpacing: 10),
+                        children: [
+                          TextSpan(
+                            text: discount.toString(),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: '/-',
+                            style: TextStyle(fontSize: 16, wordSpacing: 5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 20),
                 if (widget.service.isPurchased == false)
                   Text(
@@ -222,34 +270,34 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     children: [
                                       vehicles?.end_date != null
                                           ? Row(
-                                            children: [
-                                              Icon(Icons.calendar_today,
-                                                  size: 15,
-                                                  color: Colors.grey),
-                                              SizedBox(width: 10),
-                                              Text('End Date',
-                                                  style: TextStyle(
-                                                      color: Colors.grey)),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                // DateFormat.yMMMMd().format(vehicles.end_date.toString() ?? DateTime.now()),
-                                                formatDate(vehicles.end_date
-                                                    .toString()),
-                                                style: TextStyle(),
-                                              ),
-                                              // Column(
-                                              //   crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   children: [
-                                              //     Text('Start Date', style: TextStyle(color: Colors.grey)),
-                                              //     SizedBox(height: 10),
-                                              //     Text(
-                                              //       DateFormat.yMMMMd().format(purchase.fromDate ?? DateTime.now()),
-                                              //       style: TextStyle(),
-                                              //     ),
-                                              //   ],
-                                              // ),
-                                            ],
-                                          )
+                                              children: [
+                                                Icon(Icons.calendar_today,
+                                                    size: 15,
+                                                    color: Colors.grey),
+                                                SizedBox(width: 10),
+                                                Text('End Date',
+                                                    style: TextStyle(
+                                                        color: Colors.grey)),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  // DateFormat.yMMMMd().format(vehicles.end_date.toString() ?? DateTime.now()),
+                                                  formatDate(vehicles.end_date
+                                                      .toString()),
+                                                  style: TextStyle(),
+                                                ),
+                                                // Column(
+                                                //   crossAxisAlignment: CrossAxisAlignment.start,
+                                                //   children: [
+                                                //     Text('Start Date', style: TextStyle(color: Colors.grey)),
+                                                //     SizedBox(height: 10),
+                                                //     Text(
+                                                //       DateFormat.yMMMMd().format(purchase.fromDate ?? DateTime.now()),
+                                                //       style: TextStyle(),
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                              ],
+                                            )
                                           : Container(),
                                       Spacer(),
                                       //renew button
@@ -266,8 +314,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           side: BorderSide(color: Colors.blue),
                                         ),
                                         onPressed: () async {
-
-                                           openCheckout(vehicles.id!);
+                                          openCheckout(vehicles.id!);
 
                                           setState(() {
                                             vehicleId =
@@ -289,7 +336,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  CalenderScreen(vehicleId: vehicles.id!,)),
+                                                  CalenderScreen(
+                                                    vehicleId: vehicles.id!,
+                                                  )),
                                         );
                                       },
                                       style: OutlinedButton.styleFrom(
@@ -348,7 +397,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       // ),
     );
   }
-
 
   String formatDate(String inputString) {
     // Create a DateTime object from the input string

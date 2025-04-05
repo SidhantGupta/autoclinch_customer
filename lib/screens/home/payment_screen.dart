@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:autoclinch_customer/network/api_service.dart';
 import 'package:autoclinch_customer/network/model/common_response.dart';
 import 'package:autoclinch_customer/network/model/login_response.dart';
@@ -486,7 +484,6 @@ class _PaymentScreenState extends State<_PaymentScreen> {
                       _placeTempOrder();
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
                         shadowColor: Theme.of(context).primaryColor,
                         elevation: 7,
                         shape: RoundedRectangleBorder(

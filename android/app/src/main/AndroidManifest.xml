@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.autoclinch.customer.autoclinch_customer">
+    >
 
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
@@ -7,13 +7,30 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+ <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:label="Autoclinch"
         android:icon="@mipmap/launcher_icon"
-        android:usesCleartextTraffic="true">
-
+        android:usesCleartextTraffic="true"
+        
+        android:networkSecurityConfig="@xml/network_security_config"
+>
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_channel_id"
+    android:value="@string/default_notification_channel_id"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
-
+<meta-data 
+           android:name="com.facebook.sdk.ClientToken" 
+           android:value="@string/facebook_client_token"/>
+<meta-data
+    android:name="firebase_messaging_auto_init_enabled"
+    android:value="false" />
+<meta-data
+    android:name="firebase_analytics_collection_enabled"
+    android:value="false" />
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

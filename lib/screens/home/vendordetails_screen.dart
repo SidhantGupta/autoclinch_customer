@@ -22,7 +22,8 @@ class _VendorDetailsScreenState extends State<VendorDetailsScreen> {
 
   @override
   void initState() {
-    _futureVendorDetails = ApiService().execute<VendorDetailsResponse>('getvendordetails/${widget.vendorId}',
+    _futureVendorDetails = ApiService().execute<VendorDetailsResponse>(
+        'getvendordetails/${widget.vendorId}',
         // future: ApiService().execute<ProfileResponse>('vendor/businessprofile',
         isGet: true,
         isThrowExc: true);
@@ -79,7 +80,10 @@ class VendorDetails extends StatelessWidget {
     //         .where((element) => element.isNotEmpty)
     //         .toList());
 
-    final _serviceList = _selecteServices.map((e) => e.id ?? '').where((element) => element.isNotEmpty).toList();
+    final _serviceList = _selecteServices
+        .map((e) => e.id ?? '')
+        .where((element) => element.isNotEmpty)
+        .toList();
 
     if (vendorDetailsData.vendor == null) {
       ////('vendorDetailsData.vendor == null');
@@ -88,8 +92,8 @@ class VendorDetails extends StatelessWidget {
       ////('Please select services');
       ApiService().showToast('Please select services');
     } else {
-      _showBottomSheet(
-          'Enter your issue and vehicle details', 'Remarks', context, vendorDetailsData.vendor!, _serviceList);
+      _showBottomSheet('Enter your issue and vehicle details', 'Remarks',
+          context, vendorDetailsData.vendor!, _serviceList);
       //     submit: (remarks) {
 
       // });
@@ -156,13 +160,15 @@ class VendorDetails extends StatelessWidget {
                             height: 170,
                             child: PageView(
                               controller: pageController,
-                              children: vendorDetailsData.images != null && vendorDetailsData.images!.isNotEmpty
+                              children: vendorDetailsData.images != null &&
+                                      vendorDetailsData.images!.isNotEmpty
                                   ? vendorDetailsData.images!
                                       .map((e) => FadeInImage(
                                             width: double.infinity,
                                             height: double.infinity,
                                             fit: BoxFit.cover,
-                                            placeholder: AssetImage(placeholder),
+                                            placeholder:
+                                                AssetImage(placeholder),
                                             image: NetworkImage(e.imageUrl),
                                           ))
                                       .toList()
@@ -195,18 +201,25 @@ class VendorDetails extends StatelessWidget {
                                     children: <Widget>[
                                       new Flexible(
                                         child: Container(
-                                          padding: const EdgeInsets.only(left: 10),
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
                                           width: double.infinity,
                                           height: 20,
-                                          child: Text(vendorDetailsData.vendor?.businessName ?? '',
-                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                          child: Text(
+                                              vendorDetailsData
+                                                      .vendor?.businessName ??
+                                                  '',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20)),
                                           alignment: Alignment.centerLeft,
                                         ),
                                         flex: 4,
                                       ),
                                       new Flexible(
                                         child: Container(
-                                          padding: const EdgeInsets.only(right: 10),
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
                                           width: double.infinity,
                                           height: 20,
                                           child: Text("Starting from"),
@@ -221,15 +234,18 @@ class VendorDetails extends StatelessWidget {
                                     children: <Widget>[
                                       new Flexible(
                                         child: Container(
-                                          padding: const EdgeInsets.only(left: 10),
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
                                           width: double.infinity,
                                           height: 20,
                                           alignment: Alignment.centerLeft,
                                           child: Row(
                                             children: [
                                               RatingStars(
-                                                value: vendorDetailsData.totalReviewDouble,
-                                                starColor: Theme.of(context).primaryColor,
+                                                value: vendorDetailsData
+                                                    .totalReviewDouble,
+                                                starColor: Theme.of(context)
+                                                    .primaryColor,
                                               ),
                                               Text(
                                                 "Reviews (${vendorDetailsData.totalReviewCount})",
@@ -241,13 +257,19 @@ class VendorDetails extends StatelessWidget {
                                       ),
                                       new Flexible(
                                         child: Container(
-                                          padding: const EdgeInsets.only(right: 10),
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
                                           width: double.infinity,
                                           // height: 20,
-                                          child: Text("Rs." + vendorDetailsData.priceStartFrom.toString(),
+                                          child: Text(
+                                              "Rs." +
+                                                  vendorDetailsData
+                                                      .priceStartFrom
+                                                      .toString(),
                                               style: TextStyle(
                                                   fontSize: 25,
-                                                  color: Theme.of(context).primaryColor,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
                                                   fontWeight: FontWeight.w500)),
                                           alignment: Alignment.centerRight,
                                         ),
@@ -270,7 +292,10 @@ class VendorDetails extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text("(* approx charge)",
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.normal, color: Colors.red)),
+                      style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.red)),
                   const SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
@@ -292,7 +317,8 @@ class VendorDetails extends StatelessWidget {
                           Expanded(
                             child: Text(
                               'Minimum Service Charge',
-                              style: const TextStyle(fontSize: 16, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.black),
                             ),
                           ),
                           Text(
@@ -317,7 +343,9 @@ class VendorDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          Text("Description",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18)),
                           Divider(),
                           Text(vendorDetailsData.vendor?.description ?? '',
                               style: TextStyle(
@@ -338,19 +366,26 @@ class VendorDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Mechanics", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          Text("Mechanics",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18)),
                           Divider(),
-                        ]..addAll(vendorDetailsData.mechanics.map((e) => Padding(
-                              padding: const EdgeInsets.only(top: 6),
-                              child: Row(
-                                children: [Expanded(child: Text(e.name)), Text(e.contactNo)],
-                              ),
-                            ))),
+                        ]..addAll(
+                            vendorDetailsData.mechanics.map((e) => Padding(
+                                  padding: const EdgeInsets.only(top: 6),
+                                  child: Row(
+                                    children: [
+                                      Expanded(child: Text(e.name)),
+                                      Text(e.contactNo)
+                                    ],
+                                  ),
+                                ))),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  if (vendorDetailsData.vendor?.paymentOption != null && vendorDetailsData.vendor?.paymentOption != '')
+                  if (vendorDetailsData.vendor?.paymentOption != null &&
+                      vendorDetailsData.vendor?.paymentOption != '')
                     Card(
                       child: Container(
                         width: double.infinity,
@@ -361,15 +396,21 @@ class VendorDetails extends StatelessWidget {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.payment_outlined, color: Colors.orange),
+                                Icon(Icons.payment_outlined,
+                                    color: Colors.orange),
                                 SizedBox(width: 10),
-                                Text(vendorDetailsData.vendor?.paymentOption ?? '',
+                                Text(
+                                    vendorDetailsData.vendor?.paymentOption ??
+                                        '',
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     )),
                                 SizedBox(width: 3),
-                                Text('Available', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                                Text('Available',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                           ],
@@ -391,7 +432,9 @@ class VendorDetails extends StatelessWidget {
                                     width: double.infinity,
                                     // height: 20,
                                     child: Text("Reviews & Ratings",
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18)),
                                     alignment: Alignment.centerLeft,
                                   ),
                                   flex: 4,
@@ -403,14 +446,18 @@ class VendorDetails extends StatelessWidget {
                                     // height: 20,
                                     child: InkWell(
                                         onTap: () async {
-                                          Navigator.of(context)
-                                              .pushNamed("/allreviewscreen", arguments: vendorDetailsData.vendor!.id);
+                                          Navigator.of(context).pushNamed(
+                                              "/allreviewscreen",
+                                              arguments:
+                                                  vendorDetailsData.vendor!.id);
                                         },
                                         child: Text("View All",
                                             style: TextStyle(
                                                 // fontSize: 25,
-                                                color: Theme.of(context).primaryColor,
-                                                fontWeight: FontWeight.normal))),
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                fontWeight:
+                                                    FontWeight.normal))),
 
                                     alignment: Alignment.centerRight,
                                   ),
@@ -425,7 +472,9 @@ class VendorDetails extends StatelessWidget {
                               width: double.infinity,
                               alignment: Alignment.center,
                               child: Text(vendorDetailsData.totalReview,
-                                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 24)),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 24)),
                             ),
                             const SizedBox(height: 10),
                             Container(
@@ -441,7 +490,8 @@ class VendorDetails extends StatelessWidget {
                             Container(
                               width: double.infinity,
                               alignment: Alignment.center,
-                              child: Text("Reviews (${vendorDetailsData.totalReviewCount})",
+                              child: Text(
+                                  "Reviews (${vendorDetailsData.totalReviewCount})",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 190, 195, 199),
                                       fontWeight: FontWeight.normal,
@@ -458,7 +508,8 @@ class VendorDetails extends StatelessWidget {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: vendorDetailsData.reviews!.length,
-                          itemBuilder: (context, index) => _listItem(context, vendorDetailsData.reviews![index]),
+                          itemBuilder: (context, index) => _listItem(
+                              context, vendorDetailsData.reviews![index]),
                         )
                       : SizedBox(),
                 ],
@@ -525,7 +576,8 @@ class VendorDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(reviews.customer_name ?? 'Verified Customer',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                   Text(reviews.review_title!,
                       style: TextStyle(
                         color: Color.fromARGB(255, 190, 195, 199),
@@ -547,7 +599,8 @@ class VendorDetails extends StatelessWidget {
 
                 child: Container(
                   // alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.only(left: 7.0, right: 7.0, bottom: 5.0, top: 5.0),
+                  padding: const EdgeInsets.only(
+                      left: 7.0, right: 7.0, bottom: 5.0, top: 5.0),
 
                   // color: Colors.amberAccent,
                   child: Row(
@@ -557,11 +610,14 @@ class VendorDetails extends StatelessWidget {
                       Text(
                         reviews.star!,
                         style: TextStyle(
-                            fontWeight: FontWeight.normal, fontSize: 14.0, color: Color.fromARGB(255, 246, 130, 30)
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.0,
+                            color: Color.fromARGB(255, 246, 130, 30)
                             // double
                             ),
                       ),
-                      Icon(Icons.star_outlined, size: 17, color: Color.fromARGB(255, 246, 130, 30)),
+                      Icon(Icons.star_outlined,
+                          size: 17, color: Color.fromARGB(255, 246, 130, 30)),
                     ],
                   ),
                 ),
@@ -571,8 +627,10 @@ class VendorDetails extends StatelessWidget {
         const SizedBox(height: 10),
         Container(
             child: Text(reviews.description!,
-                style:
-                    TextStyle(color: Color.fromARGB(255, 190, 195, 199), fontWeight: FontWeight.normal, fontSize: 15))),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 190, 195, 199),
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15))),
       ],
     );
   }
@@ -601,8 +659,8 @@ class VendorDetails extends StatelessWidget {
 
   // {void Function(String)? submit}
 
-  void _showBottomSheet(
-      String? title, String? subtitle, BuildContext context, Vendor vendor, List<String> serviceList) {
+  void _showBottomSheet(String? title, String? subtitle, BuildContext context,
+      Vendor vendor, List<String> serviceList) {
     final TextEditingController _textController = TextEditingController();
     final TextEditingController _textController1 = TextEditingController();
 
@@ -611,7 +669,8 @@ class VendorDetails extends StatelessWidget {
       isScrollControlled: true,
       builder: (context) => SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           color: Color(0xff757575),
           child: Container(
             padding: EdgeInsets.all(20.0),
@@ -665,12 +724,15 @@ class VendorDetails extends StatelessWidget {
                     'Confirm',
                     style: TextStyle(color: Colors.white),
                   ),
-                  style: ElevatedButton.styleFrom(primary: Colors.blue),
+                  style: ElevatedButton.styleFrom(),
                   onPressed: () async {
-                    String vehiclename = await SharedPreferenceUtil().getVehicleName();
-                    String serviceType = await SharedPreferenceUtil().getServiceType();
+                    String vehiclename =
+                        await SharedPreferenceUtil().getVehicleName();
+                    String serviceType =
+                        await SharedPreferenceUtil().getServiceType();
 
-                    _sendtonextpage(context, vehiclename, _textController.text, vendor, serviceList, serviceType);
+                    _sendtonextpage(context, vehiclename, _textController.text,
+                        vendor, serviceList, serviceType);
 
                     // if (submit != null) {
                     //   submit(_textController.text);
@@ -718,12 +780,15 @@ class _BookButton extends StatelessWidget {
         child: Text("Book this Service ₹${_provider.total}",
             // child: Text("Book this Service ₹50",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
         style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
             shadowColor: Theme.of(context).primaryColor,
             elevation: 7,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
       ),
     );
   }
@@ -733,7 +798,8 @@ class FilterChipWidget extends StatefulWidget {
   final Services _services;
   final Function(Services, bool) selectListener;
 
-  FilterChipWidget(this._services, {Key? key, required this.selectListener}) : super(key: key);
+  FilterChipWidget(this._services, {Key? key, required this.selectListener})
+      : super(key: key);
 
   @override
   _FilterChipWidgetState createState() => _FilterChipWidgetState();
@@ -741,7 +807,8 @@ class FilterChipWidget extends StatefulWidget {
 
 class _FilterChipWidgetState extends State<FilterChipWidget> {
   var _isSelected = false;
-  final labelStyle = TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15);
+  final labelStyle =
+      TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15);
 
   @override
   Widget build(BuildContext context) {
@@ -759,7 +826,8 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
               children: [
                 SizedBox(
                   child: _isSelected
-                      ? Icon(Icons.radio_button_checked, color: Color.fromARGB(255, 246, 130, 30))
+                      ? Icon(Icons.radio_button_checked,
+                          color: Color.fromARGB(255, 246, 130, 30))
                       : Icon(Icons.radio_button_unchecked),
                   // ? Icon(Icons.check_circle_outline_outlined)
                   // : SizedBox(),

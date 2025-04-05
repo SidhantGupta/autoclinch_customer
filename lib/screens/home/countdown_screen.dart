@@ -85,8 +85,11 @@ class _CountDownScreenState extends State<CountDownScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 _Counter(
-                                  timerMaxSeconds: int.parse(snapshot.data!.data!.timeout) * 60,
-                                  timerCompleted: (isInterval) => _chcekOrderStatus(context, isInterval),
+                                  timerMaxSeconds:
+                                      int.parse(snapshot.data!.data!.timeout) *
+                                          60,
+                                  timerCompleted: (isInterval) =>
+                                      _chcekOrderStatus(context, isInterval),
                                 )
                               ],
                             ),
@@ -95,7 +98,9 @@ class _CountDownScreenState extends State<CountDownScreen> {
                             ),
                             Text(
                               "Please wait for the approval from Vendor Side",
-                              style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColor),
                             )
                           ],
                         ),
@@ -122,13 +127,16 @@ class _CountDownScreenState extends State<CountDownScreen> {
           'service_problem': widget.intentData?.remarks,
           'service_type': widget.intentData?.serviceType,
           'vehicle_det': widget.intentData?.vehicle_det
-        }..addAll(widget.intentData?.services.asMap().map((key, value) => MapEntry("services[$key]", value)) ??
+        }..addAll(widget.intentData?.services
+                .asMap()
+                .map((key, value) => MapEntry("services[$key]", value)) ??
             {"services[0]": null}),
         isThrowExc: true);
   }
 
   void _chcekOrderStatus(BuildContext context, bool isInterval) async {
-    final PaymentVehicleResponse? response = await ApiService().execute<PaymentVehicleResponse>(
+    final PaymentVehicleResponse? response =
+        await ApiService().execute<PaymentVehicleResponse>(
       'check-vendor-api',
       params: {
         'vendor_id': widget.intentData!.vendor.id,
@@ -161,7 +169,8 @@ class _CountDownScreenState extends State<CountDownScreen> {
     } else {
       if (!isInterval) {
         ApiService().showToast('Vendor is not responding');
-        Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (route) => false);
       }
     }
   }
@@ -180,7 +189,8 @@ class _CountDownScreenState extends State<CountDownScreen> {
               child: Text("Go to Home"),
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/home', (route) => false);
               },
             )
           ],
@@ -210,9 +220,11 @@ class SuccessWidget extends StatelessWidget {
                 'assets/icons/successful.json',
                 repeat: false,
               ),
-              Text('Vendor has accepted your request', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+              Text('Vendor has accepted your request',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               SizedBox(height: 5),
-              Text('Please wait for the vendor to reach you', style: TextStyle(fontSize: 15, color: Colors.grey)),
+              Text('Please wait for the vendor to reach you',
+                  style: TextStyle(fontSize: 15, color: Colors.grey)),
               SizedBox(height: 5),
               Text('You will be notified when the vendor is arrived',
                   style: TextStyle(fontSize: 15, color: Colors.grey)),
@@ -225,13 +237,13 @@ class SuccessWidget extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
                         minimumSize: Size.fromHeight(45),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                      onPressed: () =>
+                          Navigator.of(context).pushNamedAndRemoveUntil(
                         '/home',
                         (route) => false,
                         arguments: "0",
@@ -243,7 +255,6 @@ class SuccessWidget extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
                         minimumSize: Size.fromHeight(45),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -269,7 +280,8 @@ class SuccessWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false),
+                onPressed: () => Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/home', (route) => false),
                 child: Text('Go to Home'),
               ),
             ],
@@ -297,7 +309,9 @@ class TimerIntentData {
 }
 
 class _Counter extends StatefulWidget {
-  const _Counter({required this.timerMaxSeconds, required this.timerCompleted, Key? key}) : super(key: key);
+  const _Counter(
+      {required this.timerMaxSeconds, required this.timerCompleted, Key? key})
+      : super(key: key);
 
   final int timerMaxSeconds;
   final Function(bool) timerCompleted;

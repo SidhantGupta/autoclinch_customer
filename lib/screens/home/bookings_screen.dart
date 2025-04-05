@@ -36,7 +36,10 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   void initState() {
-    _futureBooking = ApiService().execute<BookingResponse>('get-bookings-history', isGet: true, isThrowExc: true);
+    _futureBooking = ApiService().execute<BookingResponse>(
+        'get-bookings-history',
+        isGet: true,
+        isThrowExc: true);
     showStatusSheet();
     super.initState();
   }
@@ -53,7 +56,8 @@ class _BookingScreenState extends State<BookingScreen> {
             .then(
           (value) async {
             if (value != null) {
-              if (value.status?.vendorAlert != null && value.status!.vendorAlert != '') {
+              if (value.status?.vendorAlert != null &&
+                  value.status!.vendorAlert != '') {
                 log('${value.status!.vendorAlert}');
 
                 String _status = await getStatus();
@@ -127,7 +131,10 @@ class _BookingScreenState extends State<BookingScreen> {
 
   void refresh() {
     setState(() {
-      _futureBooking = ApiService().execute<BookingResponse>('get-bookings-history', isGet: true, isThrowExc: true);
+      _futureBooking = ApiService().execute<BookingResponse>(
+          'get-bookings-history',
+          isGet: true,
+          isThrowExc: true);
     });
   }
 }
@@ -191,10 +198,12 @@ class _StatusWidgetState extends State<StatusWidget> {
     TextStyle reachedStyle = TextStyle(color: Colors.grey, fontSize: 13);
 
     if (widget.status == "started" || widget.status == "reached") {
-      startedStyle = TextStyle(color: Colors.green, fontSize: 15, fontWeight: FontWeight.bold);
+      startedStyle = TextStyle(
+          color: Colors.green, fontSize: 15, fontWeight: FontWeight.bold);
     }
     if (widget.status == "reached") {
-      reachedStyle = TextStyle(color: Colors.green, fontSize: 15, fontWeight: FontWeight.bold);
+      reachedStyle = TextStyle(
+          color: Colors.green, fontSize: 15, fontWeight: FontWeight.bold);
     }
 
     return Padding(
@@ -207,7 +216,7 @@ class _StatusWidgetState extends State<StatusWidget> {
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
                 visualDensity: VisualDensity.compact,
-                primary: Colors.red,
+                //   primary: Colors.red,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -269,7 +278,8 @@ class _BookingState extends State<Booking> {
     fontSize: 14.0,
   );
 
-  final TextStyle _labelStyle = TextStyle(fontSize: 14.0, color: Color(0xFF2A2935));
+  final TextStyle _labelStyle =
+      TextStyle(fontSize: 14.0, color: Color(0xFF2A2935));
 
   final String _ONGOING = 'Ongoing';
 
@@ -284,7 +294,8 @@ class _BookingState extends State<Booking> {
   @override
   void initState() {
     super.initState();
-    _loadingNotifier = Provider.of<BookingLoadingNotifier>(context, listen: false);
+    _loadingNotifier =
+        Provider.of<BookingLoadingNotifier>(context, listen: false);
     if (__id != null) {
       if (__id == "1") {
         _selectedTab = _COMPLETED;
@@ -344,10 +355,12 @@ class _BookingState extends State<Booking> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: bookingList.length,
-        itemBuilder: (context, index) => _listItem(context, _selectedTab, bookingList[index]),
+        itemBuilder: (context, index) =>
+            _listItem(context, _selectedTab, bookingList[index]),
       );
 
-  Widget _listItem(BuildContext context, String title, BookingData bookingData) {
+  Widget _listItem(
+      BuildContext context, String title, BookingData bookingData) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -372,7 +385,8 @@ class _BookingState extends State<Booking> {
                       children: [
                         Text(
                           bookingData.vendorName ?? '',
-                          style: _labelStyle.copyWith(fontWeight: FontWeight.bold),
+                          style:
+                              _labelStyle.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 5),
 
@@ -382,7 +396,9 @@ class _BookingState extends State<Booking> {
                             // height: 10,
                             // color: Colors.amberAccent,
                             alignment: Alignment.centerRight,
-                            child: _selectedTab == _ONGOING ? showTAG(bookingData.is_otp_verified) : showTAG1("yes"),
+                            child: _selectedTab == _ONGOING
+                                ? showTAG(bookingData.is_otp_verified)
+                                : showTAG1("yes"),
                           ),
                         )
                         // _selectedTab == _ONGOING
@@ -395,7 +411,9 @@ class _BookingState extends State<Booking> {
                     Divider(),
                     const SizedBox(height: 3),
 
-                    _selectedTab == _COMPLETED ? StarRating(bookingData) : ShowStatus(bookingData),
+                    _selectedTab == _COMPLETED
+                        ? StarRating(bookingData)
+                        : ShowStatus(bookingData),
                     // StarRating(),
                     const SizedBox(height: 8),
                     Row(
@@ -411,7 +429,8 @@ class _BookingState extends State<Booking> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Expanded(child: Text('Total Price', style: _labelStyle)),
+                        Expanded(
+                            child: Text('Total Price', style: _labelStyle)),
                         Text(
                           '₹',
                           style: TextStyle(
@@ -434,8 +453,6 @@ class _BookingState extends State<Booking> {
                     _selectedTab == _COMPLETED
                         ? ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xFFFEF2E6),
-                              onPrimary: Theme.of(context).primaryColor,
                               minimumSize: Size.fromHeight(40),
                             ),
                             onPressed: () {
@@ -443,7 +460,9 @@ class _BookingState extends State<Booking> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => InvoiceScreen(
-                                        url: 'https://autoclinch.in/getCustomerInvoice/' + bookingData.id.toString(),
+                                        url:
+                                            'https://autoclinch.in/getCustomerInvoice/' +
+                                                bookingData.id.toString(),
                                         header: 'yes'),
                                   ));
                             },
@@ -463,9 +482,12 @@ class _BookingState extends State<Booking> {
                 bookingData.star_rate_enabled == true
                     ? ElevatedButton(
                         onPressed: () async {
-                          bookingarg = new BookingArg(booking_id: bookingData.id, vendor_id: bookingData.vendorId);
+                          bookingarg = new BookingArg(
+                              booking_id: bookingData.id,
+                              vendor_id: bookingData.vendorId);
 
-                          final isAdded = await Navigator.of(context).pushNamed("/add_review", arguments: bookingarg);
+                          final isAdded = await Navigator.of(context)
+                              .pushNamed("/add_review", arguments: bookingarg);
 
                           if (isAdded is bool && isAdded) {
                             setState(() {});
@@ -473,10 +495,10 @@ class _BookingState extends State<Booking> {
                         },
                         child: Text(
                           'Rating',
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xFFFEF2E6),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                             //  side: BorderSide(color: _bgColor)
@@ -485,10 +507,10 @@ class _BookingState extends State<Booking> {
                       )
                     : SizedBox(),
                 if (_selectedTab == _ONGOING)
-                  if (bookingData.vendorMobile != null && bookingData.vendorMobile != '')
+                  if (bookingData.vendorMobile != null &&
+                      bookingData.vendorMobile != '')
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFFEF2E6),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                           //  side: BorderSide(color: _bgColor)
@@ -499,7 +521,8 @@ class _BookingState extends State<Booking> {
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                       onPressed: () async {
-                        if (await canLaunch('tel:' + bookingData.vendorMobile!)) {
+                        if (await canLaunch(
+                            'tel:' + bookingData.vendorMobile!)) {
                           await canLaunch('tel:' + bookingData.vendorMobile!);
                         } else {
                           return;
@@ -511,7 +534,6 @@ class _BookingState extends State<Booking> {
                   if (bookingData.allowed_payment == "no")
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFFEF2E6),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                           //  side: BorderSide(color: _bgColor)
@@ -534,7 +556,8 @@ class _BookingState extends State<Booking> {
                 _selectedTab == _ONGOING
                     ? ElevatedButton(
                         onPressed: () async {
-                          final _mapAddress = await SharedPreferenceUtil().getMapAddress();
+                          final _mapAddress =
+                              await SharedPreferenceUtil().getMapAddress();
                           // if (_mapAddress == null) {
                           //   // ApiService().showToast('message');
                           //   return;
@@ -549,10 +572,10 @@ class _BookingState extends State<Booking> {
                         },
                         child: Text(
                           'Tracking',
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xFFFEF2E6),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                             //  side: BorderSide(color: _bgColor)
@@ -566,7 +589,8 @@ class _BookingState extends State<Booking> {
                     ? bookingData.allowed_payment == "no"
                         ? ElevatedButton(
                             onPressed: () async {
-                              final data = await ApiService().execute<BookingResponse>(
+                              final data =
+                                  await ApiService().execute<BookingResponse>(
                                 'cancel-request',
                                 params: {'id': bookingData.id},
                                 loadingNotifier: _loadingNotifier,
@@ -579,10 +603,11 @@ class _BookingState extends State<Booking> {
                             },
                             child: Text(
                               'Cancel',
-                              style: TextStyle(color: Theme.of(context).primaryColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xFFFEF2E6),
+                              //        primary: Color(0xFFFEF2E6),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 //  side: BorderSide(color: _bgColor)
@@ -596,18 +621,20 @@ class _BookingState extends State<Booking> {
                     ? bookingData.allowed_payment == "yes"
                         ? ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed('/payment_outstanding_screen',
-                                  arguments: PaymentOutstandingIntentData(
-                                    bookingId: bookingData.bookingId ?? '',
-                                    id: bookingData.id ?? '',
-                                  ));
+                              Navigator.of(context)
+                                  .pushNamed('/payment_outstanding_screen',
+                                      arguments: PaymentOutstandingIntentData(
+                                        bookingId: bookingData.bookingId ?? '',
+                                        id: bookingData.id ?? '',
+                                      ));
                             },
                             child: Text(
                               'Pay ₹${bookingData.remainingAmount}',
-                              style: TextStyle(color: Theme.of(context).primaryColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xFFFEF2E6),
+                              //       primary: Color(0xFFFEF2E6),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 //  side: BorderSide(color: _bgColor)
@@ -638,13 +665,18 @@ class _BookingState extends State<Booking> {
           child: Center(
             child: Text(
               title,
-              style: _tabNoramlStyle.copyWith(color: _isSelected ? Colors.white : Theme.of(context).primaryColor),
+              style: _tabNoramlStyle.copyWith(
+                  color: _isSelected
+                      ? Colors.white
+                      : Theme.of(context).primaryColor),
             ),
           ),
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: _isSelected ? Theme.of(context).primaryColor : Color(0xFFF7E6CA),
+            color: _isSelected
+                ? Theme.of(context).primaryColor
+                : Color(0xFFF7E6CA),
           ),
         ),
       ),
@@ -715,7 +747,8 @@ class _BookingState extends State<Booking> {
     if (isOtpVerified == "yes") {
       return Text("ongoing", style: TextStyle(color: Colors.green));
     } else {
-      return Text("ongoing", style: TextStyle(color: Theme.of(context).primaryColor));
+      return Text("ongoing",
+          style: TextStyle(color: Theme.of(context).primaryColor));
     }
   }
 }
@@ -782,14 +815,22 @@ class _StatusSheetState extends State<StatusSheet> {
               if (status == "reached") {
                 endedIcon = Icons.check_circle;
               }
-              TextStyle startedStyle = TextStyle(color: Colors.grey, fontSize: 13);
-              TextStyle reachedStyle = TextStyle(color: Colors.grey, fontSize: 13);
+              TextStyle startedStyle =
+                  TextStyle(color: Colors.grey, fontSize: 13);
+              TextStyle reachedStyle =
+                  TextStyle(color: Colors.grey, fontSize: 13);
 
               if (status == "started" || status == "reached") {
-                startedStyle = TextStyle(color: Colors.green, fontSize: 15, fontWeight: FontWeight.bold);
+                startedStyle = TextStyle(
+                    color: Colors.green,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold);
               }
               if (status == "reached") {
-                reachedStyle = TextStyle(color: Colors.green, fontSize: 15, fontWeight: FontWeight.bold);
+                reachedStyle = TextStyle(
+                    color: Colors.green,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold);
               }
 
               return Column(
@@ -809,14 +850,16 @@ class _StatusSheetState extends State<StatusSheet> {
                   ),
                   ListTile(
                     visualDensity: VisualDensity.compact,
-                    title: Text('Vender started your location', style: startedStyle),
+                    title: Text('Vender started your location',
+                        style: startedStyle),
                     leading: Icon(startedIcon),
                     selected: true,
                     selectedColor: startedColor,
                   ),
                   ListTile(
                     visualDensity: VisualDensity.compact,
-                    title: Text('Vender reached your location', style: reachedStyle),
+                    title: Text('Vender reached your location',
+                        style: reachedStyle),
                     leading: Icon(endedIcon),
                     selected: true,
                     selectedColor: reachedColor,

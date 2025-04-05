@@ -61,7 +61,8 @@ class _MobileFormState extends State<MobileForm> {
 
   @override
   Widget build(BuildContext context) {
-    LoginLoadingNotifier _loadingNotifier = Provider.of<LoginLoadingNotifier>(context, listen: false);
+    LoginLoadingNotifier _loadingNotifier =
+        Provider.of<LoginLoadingNotifier>(context, listen: false);
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -73,7 +74,8 @@ class _MobileFormState extends State<MobileForm> {
           children: [
             Text(
               'Enter Your Phone \nNumber',
-              style: theme.textTheme.headline4?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleLarge
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 30.0),
             TextFormField(
@@ -103,7 +105,6 @@ class _MobileFormState extends State<MobileForm> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                primary: Color.fromARGB(255, 244, 132, 32),
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -170,7 +171,8 @@ class OtpForm extends StatefulWidget {
 }
 
 class _OtpFormState extends State<OtpForm> {
-  final StreamController<ErrorAnimationType> _errorController = StreamController<ErrorAnimationType>();
+  final StreamController<ErrorAnimationType> _errorController =
+      StreamController<ErrorAnimationType>();
 
   String? _otp;
 
@@ -226,7 +228,8 @@ class _OtpFormState extends State<OtpForm> {
 
   @override
   Widget build(BuildContext context) {
-    LoginLoadingNotifier _loadingNotifier = Provider.of<LoginLoadingNotifier>(context, listen: false);
+    LoginLoadingNotifier _loadingNotifier =
+        Provider.of<LoginLoadingNotifier>(context, listen: false);
     final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.all(16.0),
@@ -238,14 +241,14 @@ class _OtpFormState extends State<OtpForm> {
             Spacer(),
             Text(
               'Verification Code',
-              style: theme.textTheme.headline3?.copyWith(
+              style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 20),
             Text(
               'Enter the verification code we just sent to +91$mobile',
-              style: theme.textTheme.subtitle1,
+              style: theme.textTheme.titleLarge,
             ),
             const SizedBox(height: 60),
             PinCodeTextField(
@@ -280,7 +283,6 @@ class _OtpFormState extends State<OtpForm> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                primary: Color.fromARGB(255, 244, 132, 32),
               ),
               onPressed: () {
                 if (_otp != null && _otp!.length == 6) {
@@ -313,11 +315,13 @@ class _OtpFormState extends State<OtpForm> {
                   child: Text.rich(
                     TextSpan(
                       text: 'Didn\'t receive the code? ',
-                      style: theme.textTheme.subtitle1,
+                      style: theme.textTheme.titleLarge,
                       children: [
                         TextSpan(
-                          text: isTimerRunning ? 'Resend in $time seconds' : 'Resend',
-                          style: theme.textTheme.subtitle1?.copyWith(
+                          text: isTimerRunning
+                              ? 'Resend in $time seconds'
+                              : 'Resend',
+                          style: theme.textTheme.titleLarge?.copyWith(
                             color: theme.colorScheme.primary,
                           ),
                         ),
@@ -351,7 +355,8 @@ class _OtpFormState extends State<OtpForm> {
           var data = jsonDecode(json);
           bool isTrue = data['status'];
           if (isTrue == true) {
-            Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (route) => false);
           } else if (isTrue == false) {
             _errorController.add(ErrorAnimationType.shake);
           }

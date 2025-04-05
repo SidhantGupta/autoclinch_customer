@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Autoclinch Customer App</string>
-  <string name="facebook_app_id">895627178025668</string>
-  <string name="fb_login_protocol_scheme">fb1365719610250300</string>
+  <string name="app_name">Autoclich</string>
+  <string name="facebook_app_id">460209119695623</string>
+      <string name="facebook_client_token">ab8ac99e323ec5775e792d6a2763085c</string>
+  <string name="default_notification_channel_id" 
+           translatable="false">fcm_default_channel</string>
+  <string name="fb_login_protocol_scheme">1e19ed912e4219ee6d5d7f93b32fae41</string>
 </resources>

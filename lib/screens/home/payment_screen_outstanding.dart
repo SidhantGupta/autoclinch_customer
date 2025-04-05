@@ -177,7 +177,34 @@ class _PaymentScreenState extends State<_PaymentScreen> {
       return;
     }
     PaymentVehicleData? _tempOrder;
-    var options = {
+    /*  final response = await PayumoneyProUnofficial.payUParams(
+        email: loginData.email ?? "ranjithkadumeni@gmail.com",
+        firstName: '',
+        merchantName: 'Autoclinch services',
+        isProduction: true,
+        merchantKey: 'jDItdV',
+        merchantSalt: 'q3crLi7DqdSSVP5QD9bB7xmXwPkmZh7T',
+        amount: double.parse(widget.paymentData.totalAmount).toString(),
+        hashUrl:
+            '<Checksum URL to generate dynamic hashes>', //nodejs code is included. Host the code and update its url here.
+
+        productInfo: '',
+        transactionId: '',
+        showExitConfirmation: true,
+        showLogs: false, // true for debugging, false for production
+
+        userCredentials:
+            'beb984e1c24fef03760cd06e29b489ff76a713399e44b626e75a74294fe1526c:' +
+                '<Customer Email or User ID>',
+        userPhoneNumber: '');
+    print(response);
+    if (response['status'] == PayUParams.success)
+      _handlePaymentSuccess(response['']);
+
+    if (response['status'] == PayUParams.failed)
+      _handlePaymentError(response['message']);
+*/
+    /*   var options = {
       "key": "rzp_live_4Tspwhh7iniy28",
       "amount": double.parse(widget.paymentData.totalAmount) * 100,
       "name": "Autoclinch services",
@@ -191,9 +218,9 @@ class _PaymentScreenState extends State<_PaymentScreen> {
         "wallets": ["paytm"]
       }
     };
-
+*/
     try {
-      _razorpay.open(options);
+      //  _razorpay.open(options);
     } catch (err) {
       ////("Error RPAY : " + err.toString());
     }
@@ -395,7 +422,6 @@ class _PaymentScreenState extends State<_PaymentScreen> {
                     _gotoPayment();
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
                       shadowColor: Theme.of(context).primaryColor,
                       elevation: 7,
                       shape: RoundedRectangleBorder(

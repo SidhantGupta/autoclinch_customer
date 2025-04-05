@@ -31,7 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     String email = "", password = "";
-    LoginLoadingNotifier _loadingNotifier = Provider.of<LoginLoadingNotifier>(context, listen: false);
+    LoginLoadingNotifier _loadingNotifier =
+        Provider.of<LoginLoadingNotifier>(context, listen: false);
     _loadingNotifier.reset();
     final loginButon = Material(
       elevation: 5.0,
@@ -45,8 +46,13 @@ class _LoginScreenState extends State<LoginScreen> {
           if (_formKey.currentState?.validate() == true) {
             _formKey.currentState?.save();
             //debugPrint("email: $email   password: $password");
-            LoginResponse? response = await ApiService().execute<LoginResponse>("customer-login-new",
-                params: {'email': email, 'password': password, 'user_type': 'customer'},
+            LoginResponse? response = await ApiService().execute<LoginResponse>(
+                "customer-login-new",
+                params: {
+                  'email': email,
+                  'password': password,
+                  'user_type': 'customer'
+                },
                 isAddCustomerToUrl: false,
                 loadingNotifier: _loadingNotifier);
             //debugPrint("response: $response");
@@ -63,7 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
               //   ApiService().showToast(response.data?.message.toString());
               // }
               // }
-
             } else {
               _loadingNotifier.reset(loading: false);
             }
@@ -71,7 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         child: Text("Login",
             textAlign: TextAlign.center,
-            style: style.copyWith(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+            style: style.copyWith(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
       ),
     );
 
@@ -89,16 +97,17 @@ class _LoginScreenState extends State<LoginScreen> {
               //(_googleSignIn.currentUser!.email);
               //(_googleSignIn.currentUser!.photoUrl);
 
-              final LoginResponse? response = await ApiService().execute<LoginResponse>('customer-socialmedia-login',
-                  params: {
-                    'name': _googleSignIn.currentUser!.displayName,
-                    'email': _googleSignIn.currentUser!.email,
-                    'photoUrl': _googleSignIn.currentUser!.photoUrl,
-                    'id': _googleSignIn.currentUser!.id,
-                    // 'customer_ids': '3',
-                    'social_media': "google",
-                  },
-                  loadingNotifier: _loadingNotifier);
+              final LoginResponse? response = await ApiService()
+                  .execute<LoginResponse>('customer-socialmedia-login',
+                      params: {
+                        'name': _googleSignIn.currentUser!.displayName,
+                        'email': _googleSignIn.currentUser!.email,
+                        'photoUrl': _googleSignIn.currentUser!.photoUrl,
+                        'id': _googleSignIn.currentUser!.id,
+                        // 'customer_ids': '3',
+                        'social_media': "google",
+                      },
+                      loadingNotifier: _loadingNotifier);
               // _loadingNotifier?.isLoading = false;
               if (response != null && response.status) {
                 await SharedPreferenceUtil().storeUserDetails(response.data);
@@ -135,7 +144,13 @@ class _LoginScreenState extends State<LoginScreen> {
       child: InkWell(
         onTap: () async {
           try {
-            FacebookAuth.instance.login(permissions: ["public_profile", "email"]).then((value) {
+            FacebookAuth.instance.login(permissions: [
+              "public_profile",
+              "email",
+              //    'pages_show_list',
+              //   'pages_messaging',
+              //   'pages_manage_metadata'
+            ]).then((value) {
               FacebookAuth.instance.getUserData().then((userData) async {
                 ////("Full Details :" + userData.toString());
 
@@ -153,16 +168,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // ssoLogin(email, name, picture, id, "facebook");
 
-                final LoginResponse? response = await ApiService().execute<LoginResponse>('customer-socialmedia-login',
-                    params: {
-                      'name': name,
-                      'email': email,
-                      'photoUrl': picture,
-                      'id': id,
-                      // 'customer_ids': '3',
-                      'social_media': "facebook",
-                    },
-                    loadingNotifier: _loadingNotifier);
+                final LoginResponse? response = await ApiService()
+                    .execute<LoginResponse>('customer-socialmedia-login',
+                        params: {
+                          'name': name,
+                          'email': email,
+                          'photoUrl': picture,
+                          'id': id,
+                          // 'customer_ids': '3',
+                          'social_media': "facebook",
+                        },
+                        loadingNotifier: _loadingNotifier);
                 // _loadingNotifier?.isLoading = false;
                 if (response != null && response.status) {
                   await SharedPreferenceUtil().storeUserDetails(response.data);
@@ -229,7 +245,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) {
                           if ((value ?? "").trim().isEmpty) {
                             return 'This field is required';
-                          } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch((value ?? ""))) {
                             return 'Invalid email';
                           } else {
@@ -278,7 +295,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed("/forgotpassword"),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed("/forgotpassword"),
                   child: Text('Forgot Password?',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -323,5 +341,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  ssoLogin(String? email, String? name, String? id, String? photoUrl, String? socialMediaType) {}
+  ssoLogin(String? email, String? name, String? id, String? photoUrl,
+      String? socialMediaType) {}
 }

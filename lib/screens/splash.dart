@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
           child: Image.asset(
             'assets/images/logo/autoclinch_logo.png',
             height: 100,
-            // cacheHeight: 60,
+            //cacheHeight: 60,
             fit: BoxFit.fitWidth,
           ),
         ),

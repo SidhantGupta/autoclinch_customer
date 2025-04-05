@@ -10,12 +10,26 @@ class DrawerMenus extends StatelessWidget {
   // final List<DrawerModel> _drawerMenus = List.empty();
 
   final List<DrawerModel> _drawerMenus = List.of({
-    DrawerModel(iconData: Icons.account_circle_outlined, title: 'Profile', route: '/profile', isTab: true),
+    DrawerModel(
+        iconData: Icons.account_circle_outlined,
+        title: 'Profile',
+        route: '/profile',
+        isTab: true),
     DrawerModel(iconData: Icons.history, title: 'History', route: '/history'),
-    DrawerModel(iconData: Icons.contact_support_outlined, title: 'Contact Us', route: '/contact-us'),
-    DrawerModel(iconData: Icons.policy_outlined, title: 'Terms and Conditions', route: '/terms'),
-    DrawerModel(iconData: Icons.privacy_tip, title: 'Privacy Policy', route: '/policy'),
-    DrawerModel(iconData: Icons.settings_outlined, title: 'Settings', route: '/settings'),
+    DrawerModel(
+        iconData: Icons.contact_support_outlined,
+        title: 'Contact Us',
+        route: '/contact-us'),
+    DrawerModel(
+        iconData: Icons.policy_outlined,
+        title: 'Terms and Conditions',
+        route: '/terms'),
+    DrawerModel(
+        iconData: Icons.privacy_tip, title: 'Privacy Policy', route: '/policy'),
+    DrawerModel(
+        iconData: Icons.settings_outlined,
+        title: 'Settings',
+        route: '/settings'),
   }, growable: false);
 
   @override
@@ -33,7 +47,10 @@ class DrawerMenus extends StatelessWidget {
               children: [
                 Text(
                   'Welcome',
-                  style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500, fontSize: 18),
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18),
                 ),
                 Text(user?.name ?? 'Login account or create new one for free'),
                 const SizedBox(height: 10),
@@ -52,7 +69,9 @@ class DrawerMenus extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pushNamed('/login');
                             },
-                            style: _buttonStyle(context, bgColor: Color(0xFFD1D1DB), txtColor: Color(0xFF271844)),
+                            style: _buttonStyle(context,
+                                bgColor: Color(0xFFD1D1DB),
+                                txtColor: Color(0xFF271844)),
                             icon: Icon(Icons.person_add_outlined),
                             label: Text(
                               'Register',
@@ -88,10 +107,15 @@ class DrawerMenus extends StatelessWidget {
                     }
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 4.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      children: [Icon(drawer.iconData), const SizedBox(width: 5), Text(drawer.title)],
+                      children: [
+                        Icon(drawer.iconData),
+                        const SizedBox(width: 5),
+                        Text(drawer.title)
+                      ],
                     ),
                   ),
                 );
@@ -110,8 +134,6 @@ class DrawerMenus extends StatelessWidget {
     Color _bgColor = bgColor ?? Theme.of(context).primaryColor;
     Color _txtColor = txtColor ?? Colors.white;
     return ElevatedButton.styleFrom(
-      primary: _bgColor,
-      onPrimary: _txtColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
         //  side: BorderSide(color: _bgColor)
@@ -125,5 +147,9 @@ class DrawerModel {
   final String title, route;
   final bool isTab;
 
-  DrawerModel({required this.iconData, required this.title, required this.route, this.isTab = false});
+  DrawerModel(
+      {required this.iconData,
+      required this.title,
+      required this.route,
+      this.isTab = false});
 }

@@ -70,10 +70,10 @@ class _RatingScreenState extends State<RatingScreen> {
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           minimumSize: Size.fromHeight(50),
-          primary: Theme.of(context).primaryColor,
         ),
         onPressed: () async {
-          Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home', (route) => false);
         },
         label: Text('Go to Home'),
         icon: Icon(Icons.home),
@@ -178,7 +178,6 @@ class _RatingScreenState extends State<RatingScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(40),
-                    primary: Theme.of(context).primaryColor,
                   ),
                   onPressed: () async => addReview(ratingStar, ratingReview),
                   child: Text('Submit'),
@@ -189,7 +188,8 @@ class _RatingScreenState extends State<RatingScreen> {
       );
 
   addReview(String rating, String? ratingReview) async {
-    final CommonResponse2? response = await ApiService().execute<CommonResponse2>('post-review', params: {
+    final CommonResponse2? response =
+        await ApiService().execute<CommonResponse2>('post-review', params: {
       'rating_star': rating,
       'rating_review': ratingReview ?? '',
       'id': widget.userRequestId,
@@ -200,8 +200,7 @@ class _RatingScreenState extends State<RatingScreen> {
       setState(() => isReview = false);
       Fluttertoast.showToast(msg: 'Your Review has been added');
     } else {
-    Fluttertoast.showToast(msg: 'Error');  
-  
+      Fluttertoast.showToast(msg: 'Error');
     }
   }
 }

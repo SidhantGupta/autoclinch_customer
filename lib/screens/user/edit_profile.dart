@@ -28,7 +28,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   final TextEditingController _newPasswordController = TextEditingController();
 
-  final TextEditingController _confmPasswordController = TextEditingController();
+  final TextEditingController _confmPasswordController =
+      TextEditingController();
 
   String _name = '', _address = '', _mobile = '';
 
@@ -45,8 +46,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _loadingNotifier = Provider.of<EditProfileLoadingNotifier>(context, listen: false);
-    final _titleStyle = _textStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 16);
+    _loadingNotifier =
+        Provider.of<EditProfileLoadingNotifier>(context, listen: false);
+    final _titleStyle =
+        _textStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 16);
     final _descStyle = _textStyle.copyWith(fontSize: 11);
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +57,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
-        title: Text('Profile', style: TextStyle(color: Theme.of(context).primaryColor)),
+        title: Text('Profile',
+            style: TextStyle(color: Theme.of(context).primaryColor)),
       ),
       body: Column(
         children: [
@@ -75,7 +79,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       labelText: "Full Name",
                       initialValue: widget._userData?.name,
                       focusNode: _nameFocus,
-                      onFieldSubmitted: (_) => _fieldFocusChange(context, _nameFocus, _mobileFocus),
+                      onFieldSubmitted: (_) =>
+                          _fieldFocusChange(context, _nameFocus, _mobileFocus),
                       iconData: Icons.person_outline,
                       onSaved: (newValue) => _name = newValue ?? "",
                       validator: (value) {
@@ -100,7 +105,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       prefixText: '+91 ',
                       maxLength: 10,
                       focusNode: _mobileFocus,
-                      onFieldSubmitted: (_) => _fieldFocusChange(context, _mobileFocus, _addressFocus),
+                      onFieldSubmitted: (_) => _fieldFocusChange(
+                          context, _mobileFocus, _addressFocus),
                       iconData: Icons.phone_android,
                       initialValue: widget._userData?.mobile,
                       onSaved: (newValue) => _mobile = newValue ?? "",
@@ -146,14 +152,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           children: [
                             PasswordField(
                               focusNode: _oldPaswdFocus,
-                              onFieldSubmitted: (_) => _fieldFocusChange(context, _oldPaswdFocus, _newPaswdFocus),
+                              onFieldSubmitted: (_) => _fieldFocusChange(
+                                  context, _oldPaswdFocus, _newPaswdFocus),
                               controller: _oldPasswordController,
                               hintText: _passwordHint,
                               labelText: "Old Password",
                               iconData: Icons.lock_outline,
                               onSaved: (newValue) => _oldPaswd = newValue ?? "",
                               validator: (value) {
-                                if (_confmPasswordController.text.isNotNullOrEmpty || _newPasswordController.text.isNotNullOrEmpty) {
+                                if (_confmPasswordController
+                                        .text.isNotNullOrEmpty ||
+                                    _newPasswordController
+                                        .text.isNotNullOrEmpty) {
                                   if ((value ?? "").trim().isEmpty) {
                                     return 'This field is required';
                                   } else {
@@ -167,7 +177,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             const Divider(),
                             TextFieldWithPadding(
                               focusNode: _newPaswdFocus,
-                              onFieldSubmitted: (_) => _fieldFocusChange(context, _newPaswdFocus, _confmPaswdFocus),
+                              onFieldSubmitted: (_) => _fieldFocusChange(
+                                  context, _newPaswdFocus, _confmPaswdFocus),
                               controller: _newPasswordController,
                               hintText: _passwordHint,
                               labelText: "New Password",
@@ -175,7 +186,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               iconData: Icons.lock_outline,
                               onSaved: (newValue) => _newPaswd = newValue ?? "",
                               validator: (value) {
-                                if (_confmPasswordController.text.isNotNullOrEmpty || _oldPasswordController.text.isNotNullOrEmpty) {
+                                if (_confmPasswordController
+                                        .text.isNotNullOrEmpty ||
+                                    _oldPasswordController
+                                        .text.isNotNullOrEmpty) {
                                   if ((value ?? "").trim().isEmpty) {
                                     return 'This field is required';
                                   } else {
@@ -195,12 +209,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               obscureText: true,
                               textInputAction: TextInputAction.done,
                               iconData: Icons.lock_outline,
-                              onSaved: (newValue) => _cnfmPaswd = newValue ?? "",
+                              onSaved: (newValue) =>
+                                  _cnfmPaswd = newValue ?? "",
                               validator: (value) {
-                                if (_newPasswordController.text.isNotNullOrEmpty) {
+                                if (_newPasswordController
+                                    .text.isNotNullOrEmpty) {
                                   if ((value ?? "").trim().isEmpty) {
                                     return 'This field is required';
-                                  } else if ((value ?? "") != _newPasswordController.text) {
+                                  } else if ((value ?? "") !=
+                                      _newPasswordController.text) {
                                     return 'Password does not match';
                                   } else {
                                     return null;
@@ -224,8 +241,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             padding: const EdgeInsets.all(12),
             decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey, offset: Offset(0, 2))]),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 5, color: Colors.grey, offset: Offset(0, 2))
+                ]),
             child: Row(
               children: [
                 Expanded(
@@ -239,7 +261,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                       child: Text('Save'),
                       style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).primaryColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
                     )),
                 const SizedBox(width: 8),
                 Expanded(
@@ -254,7 +277,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       style: _textStyle,
                     ),
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.grey.shade200, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
                   ),
                 ),
               ],
@@ -270,9 +294,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void _updateProfile(BuildContext context) async {
     FocusScope.of(context).unfocus();
     _loadingNotifier?.isLoading = true;
-    Map<dynamic, dynamic> params = {'name': _name, 'address': _address, 'mobile': _mobile};
+    Map<dynamic, dynamic> params = {
+      'name': _name,
+      'address': _address,
+      'mobile': _mobile
+    };
 // current_password, new_password, confirm_password
-    if (_newPaswd.isNotNullOrEmpty && _oldPaswd.isNotNullOrEmpty && _newPaswd == _cnfmPaswd) {
+    if (_newPaswd.isNotNullOrEmpty &&
+        _oldPaswd.isNotNullOrEmpty &&
+        _newPaswd == _cnfmPaswd) {
       params.addAll({
         'current_password': _oldPaswd,
         'new_password': _newPaswd,
@@ -290,7 +320,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  _fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }

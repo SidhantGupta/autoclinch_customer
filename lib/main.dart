@@ -48,17 +48,19 @@ Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
 
   // await flutterLocalNotificationsPlugin
   //     .resolvePlatformSpecificImplementation<
   //         AndroidFlutterLocalNotificationsPlugin>()
   //     ?.createNotificationChannel(channel);
-
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true,
-  //   badge: true,
-  //   sound: true,
-  // );
+  FirebaseMessaging.instance.getInitialMessage();
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   runApp(MultiProvider(
@@ -119,17 +121,20 @@ class MyAppHome extends StatefulWidget {
 }
 
 class _MyAppHomeState extends State<MyAppHome> {
+  LocalNotificationService localNotificationService =
+      LocalNotificationService();
   @override
   void initState() {
     super.initState();
-
-    // LocalNotificationService.initialize(context);
-
+    localNotificationService.requestPermission();
+    //  LocalNotificationService.initialize(context);
+    localNotificationService.messaging.setAutoInitEnabled(true);
     // Get the token each time the application loads
     FirebaseMessaging.instance.getToken().then((value) async {
       String? token = value;
       ////("TOken is ==================>");
       ////(token);
+      print(token);
       await SharedPreferenceUtil().storeToken(token);
       // sendToken(token);
       // ////("NewTokenIs");
@@ -157,13 +162,11 @@ class _MyAppHomeState extends State<MyAppHome> {
     FirebaseMessaging.onMessage.listen((message) {
       // RemoteNotification? notification = message.notification;
       // AndroidNotification? android = message.notification?.android;
-
-      if (message.notification != null) {
-        ////(message.notification!.body);
-        ////(message.notification!.title);
-      }
-
-      // LocalNotificationService.display(message);
+      print('sucess');
+      print(message.notification!.title.toString());
+      if (message.notification != null) {}
+      LocalNotificationService.initialize(context);
+      LocalNotificationService.display(message);
 
       // LocalNotificationService.display(message);
     });
@@ -173,6 +176,8 @@ class _MyAppHomeState extends State<MyAppHome> {
       final routeFromMessage = message.data["route"];
       final routeId = message.data["id"];
       ////("ROUTE MESSAGE IS : " + routeFromMessage);
+      LocalNotificationService.initialize(context);
+      LocalNotificationService.display(message);
       if (routeFromMessage == "home") {
         Navigator.of(context).pushReplacementNamed("/home", arguments: routeId);
       }
@@ -210,18 +215,6 @@ class _MyAppHomeState extends State<MyAppHome> {
       isAddCustomerToUrl: false,
     );
     //debugPrint("response: $response");
-    if (response != null && response.success) {
-      // if (response.data?.firstLogin == true) {
-      //   await SharedPreferenceUtil().storeUserDetails(response.data);
-      //   Navigator.of(context).pushReplacementNamed("/profiledetails");
-      // } else {
-
-      // if (response.data?.isApprove == true) {
-      ////("Token Send successfully");
-      // } else {
-      //   ApiService().showToast(response.data?.message.toString());
-      // }
-      // }
-    }
+    if (response != null && response.success) {}
   }
 }
